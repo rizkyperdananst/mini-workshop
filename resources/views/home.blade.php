@@ -100,7 +100,10 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary float-end">Daftar</button>
+                                        @php
+                                            $member = App\Models\Member::count();
+                                        @endphp
+                                        <button {{ $member >= 25 ? 'disabled' : '' }} type="submit" class="btn btn-primary float-end">Daftar</button>
                                     </div>
                                 </div>
                             </div>
@@ -172,13 +175,20 @@
                                         @php
                                             $no=1;
                                         @endphp
+                                        @forelse ($members = \App\Models\Member::all() as $item)
                                         <tr>
-                                            <td width="5%">1</td>
-                                            <td>Joko</td>
-                                            <td>123</td>
-                                            <td>XI RPL 1</td>
-                                            <td>08123456789</td>
+                                            <td width="5%">{{ $no++ }}</td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->npm }}</td>
+                                            <td>{{ $item->class }}</td>
+                                            <td>{{ $item->phone }}</td>
+                                        </tr>    
+                                        @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">Tidak ada data</td>
                                         </tr>
+                                        @endforelse
+                                        
                                     </tbody>
                                 </table>
                             </div>
